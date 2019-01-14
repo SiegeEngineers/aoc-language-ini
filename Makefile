@@ -11,21 +11,20 @@ else
   FLAGS = $(DBGFLAGS)
 endif
 
-all: aoc-language-ini.dll language_x1_p1.dll
+all: getstrings.exe aoc-language-ini.dll language_x1_p1.dll
 
 clean:
-	rm -f aoc-language-ini.dll language_x1_p1.dll
+	rm -f aoc-language-ini.dll language_x1_p1.dll getstrings.exe
 
 .PHONY: all clean
 
 strings.rc:
 	@echo "create strings.rc first by doing:"
-	@echo "  make getstrings.exe"
-	@echo "  getstrings.exe /path/to/language_x1_p1.dll > strings.rc"
+	@echo "  getstrings.exe -rc /path/to/language_x1_p1.dll > strings.rc"
 	@exit 1
 
 getstrings.exe: getstrings.c
-	$(CC) -o $@ $^
+	$(CC) -o $@ -Wall -m32 $(FLAGS) $^
 
 aoc-language-ini.dll: $(SOURCES)
 	$(CC) -o $@ -Wall -m32 $(FLAGS) -shared $^
