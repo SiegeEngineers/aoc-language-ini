@@ -12,6 +12,8 @@ This "mod module" can be used as part of a larger mod. It can be used in two way
 
 ## Standalone Usage
 
+> Standalone usage is only supported for UserPatch 1.5 mods.
+
 Put `language_x1_p1.dll` from the [releases](https://github.com/SiegeEngineers/aoc-language-ini)
 page in the `Games\$YOUR_MOD_NAME\Data\` folder.
 If you already have one, see [below](#migrate) for migration steps—do that _before_ replacing your `language_x1_p1.dll` file.
