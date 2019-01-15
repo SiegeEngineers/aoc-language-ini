@@ -4,7 +4,7 @@
 #include "hook.h"
 
 #ifdef DEBUG
-#  define dbg_print(...) printf(__VA_ARGS__)
+#  define dbg_print(...) printf("[aoc-language-ini] " __VA_ARGS__)
 #else
 #  define dbg_print(...)
 #endif
@@ -54,7 +54,7 @@ static void expand_string_table (string_table_t* string_table) {
 }
 
 HANDLE aoc_ini_load_strings (char* filename) {
-  dbg_print("[aoc-language-ini] load strings: %s\n", filename);
+  dbg_print("load strings: %s\n", filename);
 
   string_table_t string_table = {
     .id = string_table_id,
@@ -77,7 +77,7 @@ HANDLE aoc_ini_load_strings (char* filename) {
   while (read_ptr != NULL) {
     if (read_ptr[0] != ';') {
       if (sscanf(read_ptr, "%d=%4096[^\n\r]", &id, cur_string) == 2) {
-        dbg_print("[aoc-language-ini] found string %d: '%s'\n", id, cur_string);
+        dbg_print("found string %d: '%s'\n", id, cur_string);
         string_table.entries[string_table.size].id = id;
         string_table.entries[string_table.size].size = strlen(cur_string);
         string_table.entries[string_table.size].value = strdup(cur_string);
@@ -111,7 +111,7 @@ HANDLE aoc_ini_load_strings (char* filename) {
 }
 
 static void free_string_table_entries (string_table_t* table) {
-  dbg_print("[aoc-language-ini] free entries: %s\n", table->filename);
+  dbg_print("free entries: %s\n", table->filename);
   for (int i = 0; i < table->size; i++) {
     free(table->entries[i].value);
   }
@@ -187,7 +187,7 @@ static char* __stdcall load_string_hook (HINSTANCE dll, unsigned int string_id, 
 
 static hook_t hooks[10];
 void aoc_ini_init() {
-  dbg_print("[aoc-language-ini] init()\n");
+  dbg_print("init()\n");
 
   int i = 0;
   hooks[i++] = install_callhook((void*) 0x43CF2B, load_string_hook);
@@ -195,7 +195,7 @@ void aoc_ini_init() {
 }
 
 void aoc_ini_deinit() {
-  dbg_print("[aoc-language-ini] deinit()\n");
+  dbg_print("deinit()\n");
 
   aoc_ini_free_all();
 

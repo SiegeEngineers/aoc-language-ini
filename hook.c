@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 #ifdef DEBUG
-#  define dbg_print(...) printf(__VA_ARGS__)
+#  define dbg_print(...) printf("[aoc-language-ini] [hook] " __VA_ARGS__)
 #else
 #  define dbg_print(...)
 #endif
@@ -38,7 +38,7 @@ static void* overwrite_bytes(void* ptr, void* value, size_t size) {
   DWORD old;
   DWORD tmp;
   if (!VirtualProtect(ptr, size, PAGE_EXECUTE_READWRITE, &old)) {
-    dbg_print("[aoc-language-ini] [hook] Couldn't unprotect?! @ %p\n", ptr);
+    dbg_print("Couldn't unprotect?! @ %p\n", ptr);
     return NULL;
   }
   memcpy(orig_data, value, size);
@@ -61,7 +61,7 @@ hook_t install_jmphook (void* orig_address, void* hook_address) {
   };
   int offset = PtrToUlong(hook_address) - PtrToUlong(orig_address + 5);
   memcpy(&patch[1], &offset, sizeof(offset));
-  dbg_print("[aoc-language-ini] [hook] installing hook at %p JMP %x (%p %p)\n", orig_address, offset, hook_address, orig_address);
+  dbg_print("installing hook at %p JMP %x (%p %p)\n", orig_address, offset, hook_address, orig_address);
   void* orig_data = overwrite_bytes(orig_address, patch, 6);
   if (orig_data == NULL) {
     return NULL;
@@ -85,7 +85,7 @@ hook_t install_callhook (void* orig_address, void* hook_address) {
   };
   int offset = PtrToUlong(hook_address) - PtrToUlong(orig_address + 5);
   memcpy(&patch[1], &offset, sizeof(offset));
-  dbg_print("[aoc-language-ini] [hook] installing hook at %p CALL %x (%p %p)\n", orig_address, offset, hook_address, orig_address);
+  dbg_print("installing hook at %p CALL %x (%p %p)\n", orig_address, offset, hook_address, orig_address);
   void* orig_data = overwrite_bytes(orig_address, patch, 5);
   if (orig_data == NULL) return NULL;
   hook_t hook = new_hook(orig_address, 5);
@@ -102,7 +102,7 @@ hook_t install_vtblhook (void* orig_address, void* hook_address) {
   assert(hook_address != NULL);
 
   int offset = PtrToUlong(hook_address);
-  dbg_print("[aoc-language-ini] [hook] installing hook at %p VTBL %x (%p %p)\n", orig_address, offset, hook_address, orig_address);
+  dbg_print("installing hook at %p VTBL %x (%p %p)\n", orig_address, offset, hook_address, orig_address);
   void* orig_data = overwrite_bytes(orig_address, (char*)&offset, 4);
   if (orig_data == NULL) return NULL;
   hook_t hook = new_hook(orig_address, 4);
@@ -111,6 +111,7 @@ hook_t install_vtblhook (void* orig_address, void* hook_address) {
 }
 
 void revert_hook (hook_t hook) {
+  assert(hook != NULL);
   assert(hook->ptr != NULL);
   assert(hook->orig_data != NULL);
   assert(hook->orig_size > 0);
