@@ -14,6 +14,7 @@ This "mod module" can be used as part of a larger mod. It can be used in two way
 
 Put `language_x1_p1.dll` from the [releases](https://github.com/SiegeEngineers/aoc-language-ini)
 page in the `Games\$YOUR_MOD_NAME\Data\` folder.
+If you already have one, see [below](#migrate) for migration steps—do that _before_ replacing your `language_x1_p1.dll` file.
 
 Create a `language.ini` in the `Games\$YOUR_MOD_NAME` folder.
 
@@ -42,6 +43,22 @@ For strings containing multiple lines, use \n in place of `<enter>`:
 ```
 12345=First Line.\nSecond Line.
 ```
+
+<a name="migrate"></a>
+## Convert Existing language.dll to language.ini
+
+Using the `language_x1_p1.dll` proxy from this project means your `Data\language_x1_p1.dll` file will not contain your custom strings anymore. You can migrate them to a `language.ini` using the `getstrings` tool.
+
+Please make sure to backup your `language_x1_p1.dll` in case something goes wrong.
+
+Download `getstrings.exe` from the [releases](https://github.com/SiegeEngineers/aoc-language-ini)
+page. Put it in your mod directory, then navigate to that directory in the command prompt and do:
+
+```
+.\getstrings.exe Data\language_x1_p1.dll > language.ini
+```
+
+You can then delete `getstrings.exe` and replace your old `language_x1_p1.dll` with the one from this project.
 
 ## Programmatic usage
 
