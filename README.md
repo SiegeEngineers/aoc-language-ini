@@ -103,6 +103,8 @@ if (language_is_english) {
 }
 ```
 
+If multiple files contain the same string IDs, the file that was loaded _last_ takes precedence.
+
 ## License
 
 [LGPL-3.0](./LICENSE.md)

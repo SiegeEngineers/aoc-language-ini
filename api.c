@@ -166,7 +166,7 @@ static string_entry_t* find_string_in_table (string_table_t* table, int id) {
 
 static string_entry_t* find_string (int id) {
   string_entry_t* entry = NULL;
-  for (int i = 0; i < num_string_tables; i++) {
+  for (int i = num_string_tables - 1; i >= 0; i--) {
     entry = find_string_in_table(&string_tables[i], id);
     if (entry) return entry;
   }
