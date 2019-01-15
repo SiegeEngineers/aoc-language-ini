@@ -53,6 +53,22 @@ static void expand_string_table (string_table_t* string_table) {
       string_table->capacity * sizeof(string_entry_t));
 }
 
+static char* unescape (char* input) {
+  int l = strlen(input);
+  int j = 0;
+  char* buf = calloc(1, l + 1);
+  for (int i = 0; i < l; i++) {
+    if (input[i] == '\\' && input[i + 1] == 'n') {
+      i++;
+      buf[j++] = '\n';
+    } else {
+      buf[j++] = input[i];
+    }
+  }
+  buf[j] = '\0';
+  return buf;
+}
+
 HANDLE aoc_ini_load_strings (char* filename) {
   dbg_print("load strings: %s\n", filename);
 
@@ -79,8 +95,9 @@ HANDLE aoc_ini_load_strings (char* filename) {
       if (sscanf(read_ptr, "%d=%4096[^\n\r]", &id, cur_string) == 2) {
         dbg_print("found string %d: '%s'\n", id, cur_string);
         string_table.entries[string_table.size].id = id;
-        string_table.entries[string_table.size].size = strlen(cur_string);
-        string_table.entries[string_table.size].value = strdup(cur_string);
+        char* unescaped = unescape(cur_string);
+        string_table.entries[string_table.size].value = unescaped;
+        string_table.entries[string_table.size].size = strlen(unescaped);
 
         string_table.size++;
         if (string_table.size >= string_table.capacity) {
