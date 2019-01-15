@@ -14,7 +14,7 @@ This "mod module" can be used as part of a larger mod. It can be used in two way
 
 > Standalone usage is only supported for UserPatch 1.5 mods.
 
-Put `language_x1_p1.dll` from the [releases](https://github.com/SiegeEngineers/aoc-language-ini)
+Put `language_x1_p1.dll` from the [releases](https://github.com/SiegeEngineers/aoc-language-ini/releases)
 page in the `Games\$YOUR_MOD_NAME\Data\` folder.
 If you already have one, see [below](#migrate) for migration steps—do that _before_ replacing your `language_x1_p1.dll` file.
 
@@ -53,7 +53,7 @@ Using the `language_x1_p1.dll` proxy from this project means your `Data\language
 
 Please make sure to backup your `language_x1_p1.dll` in case something goes wrong.
 
-Download `getstrings.exe` from the [releases](https://github.com/SiegeEngineers/aoc-language-ini)
+Download `getstrings.exe` from the [releases](https://github.com/SiegeEngineers/aoc-language-ini/releases)
 page. Put it in your mod directory, then navigate to that directory in the command prompt and do:
 
 ```
@@ -66,7 +66,7 @@ You can then delete `getstrings.exe` and replace your old `language_x1_p1.dll` w
 
 If you are already doing exe mods or have some other way of injecting a DLL for your mod, you can avoid the `language_x1_p1.dll` proxy thing.
 
-Instead, download `aoc-language-ini.dll` from the [releases](https://github.com/SiegeEngineers/aoc-language-ini)
+Instead, download `aoc-language-ini.dll` from the [releases](https://github.com/SiegeEngineers/aoc-language-ini/releases)
 page.
 You can load it using `LoadLibrary()` or link to it during your build process (if you are already writing C/C++ code).
 Then, call `aoc_ini_load_strings` to load a .ini file.
