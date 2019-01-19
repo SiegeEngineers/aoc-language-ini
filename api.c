@@ -58,9 +58,20 @@ static char* unescape (char* input) {
   int j = 0;
   char* buf = calloc(1, l + 1);
   for (int i = 0; i < l; i++) {
-    if (input[i] == '\\' && input[i + 1] == 'n') {
-      i++;
-      buf[j++] = '\n';
+    if (input[i] == '\\' && i + 1 < l) {
+      switch (input[i + 1]) {
+        case 'n':
+          i++;
+          buf[j++] = '\n';
+          break;
+        case 'r':
+          i++;
+          buf[j++] = '\r';
+          break;
+        default:
+          buf[j++] = input[i];
+          break;
+      }
     } else {
       buf[j++] = input[i];
     }
