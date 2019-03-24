@@ -9,8 +9,6 @@
 #  define dbg_print(...)
 #endif
 
-#define AOC_LANGUAGE_INI_VERSION "0.2.1"
-
 typedef struct string_entry {
   int id;
   int size;
@@ -232,20 +230,4 @@ void aoc_ini_deinit() {
   for (int i = 0; hooks[i] != NULL; i++) {
     revert_hook(hooks[i]);
   }
-}
-
-void mmm_setup(mmm_mod_info* info) {
-  info->name = "Language INI loader";
-  info->version = AOC_LANGUAGE_INI_VERSION;
-}
-
-void mmm_before_setup(mmm_mod_info* info) {
-  aoc_ini_init();
-}
-
-void mmm_after_setup(mmm_mod_info* info) {
-}
-
-void mmm_unload(mmm_mod_info* info) {
-  aoc_ini_deinit();
 }
