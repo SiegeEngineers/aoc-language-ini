@@ -1,6 +1,7 @@
 #define WIN32_MEAN_AND_LEAN
 #include <windows.h>
 #include <stdio.h>
+#include <wchar.h>
 
 /**
  * getstrings: tool to dump AoC language strings from dll files
@@ -11,24 +12,24 @@
  *   getstrings -rc /path/to/language.dll
  */
 
-char* escape (char* str, char quoted) {
+wchar_t* escape (wchar_t* str, char quoted) {
   int i = 0;
   int j = 0;
-  char escaped[8195];
+  wchar_t escaped[8195];
   if (quoted) {
-    escaped[j++] = '"';
+    escaped[j++] = L'"';
   }
-  while (str[i] != '\0' && j < 8193) {
+  while (str[i] != L'\0' && j < 8193) {
     switch (str[i]) {
-      case '\r':
-        escaped[j++] = '\\';
-        escaped[j++] = 'r';
+      case L'\r':
+        escaped[j++] = L'\\';
+        escaped[j++] = L'r';
         break;
-      case '\n':
-        escaped[j++] = '\\';
-        escaped[j++] = 'n';
+      case L'\n':
+        escaped[j++] = L'\\';
+        escaped[j++] = L'n';
         break;
-      case '"':
+      case L'"':
         if (quoted) {
           escaped[j++] = '\\';
           escaped[j++] = str[i];
@@ -42,10 +43,13 @@ char* escape (char* str, char quoted) {
     i++;
   }
   if (quoted) {
-    escaped[j++] = '"';
+    escaped[j++] = L'"';
   }
-  escaped[j++] = '\0';
-  return strdup(escaped);
+  escaped[j++] = L'\0';
+
+  wchar_t* heap = calloc(j, sizeof(wchar_t));
+  wmemcpy(heap, escaped, j);
+  return heap;
 }
 
 int main (int argc, char** argv) {
@@ -69,26 +73,28 @@ int main (int argc, char** argv) {
     return 1;
   }
 
-  char string[8192];
+  wchar_t string16[8192];
+  char escaped8[16384];
   if (as_string_table) {
-    printf("STRINGTABLE {\n");
+    wprintf(L"STRINGTABLE {\n");
   }
 
   for (int i = 0; i < 0xFFFF; i++) {
-    int len = LoadStringA(library, i, string, 8192);
+    int len = LoadStringW(library, i, string16, 8192);
     if (len) {
-      string[len] = '\0';
-      char* escaped = escape(string, as_string_table);
+      string16[len] = L'\0';
+      wchar_t* escaped16 = escape(string16, as_string_table);
       if (as_string_table) {
-        printf("  %d, %s\n", i, escaped);
+        wprintf(L"  %d, %s\n", i, escaped16);
       } else {
-        printf("%d=%s\n", i, escaped);
+        WideCharToMultiByte(CP_UTF8, 0, escaped16, -1, escaped8, sizeof(escaped8), NULL, NULL);
+        printf("%d=%s\n", i, escaped8);
       }
-      free(escaped);
+      free(escaped16);
     }
   }
 
   if (as_string_table) {
-    printf("}\n");
+    wprintf(L"}\n");
   }
 }

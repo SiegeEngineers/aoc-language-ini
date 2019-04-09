@@ -53,6 +53,17 @@ static void expand_string_table (string_table_t* string_table) {
       string_table->capacity * sizeof(string_entry_t));
 }
 
+static char* from_utf8 (char* utf8) {
+  int utf16len = MultiByteToWideChar(CP_UTF8, 0, utf8, -1, NULL, 0);
+  wchar_t* utf16 = calloc(utf16len, sizeof(wchar_t));
+  MultiByteToWideChar(CP_UTF8, 0, utf8, -1, utf16, utf16len);
+  int local_len = WideCharToMultiByte(CP_UTF8, 0, utf16, -1, NULL, 0, NULL, NULL);
+  char* local = calloc(local_len, sizeof(char));
+  WideCharToMultiByte(CP_UTF8, 0, utf16, -1, local, local_len, NULL, NULL);
+  free(utf16);
+  return local;
+}
+
 static char* unescape (char* input) {
   int l = strlen(input);
   int j = 0;
@@ -106,11 +117,15 @@ HANDLE aoc_ini_load_strings (char* filename) {
       if (sscanf(read_ptr, "%d=%4096[^\n\r]", &id, cur_string) == 2) {
         dbg_print("found string %d: '%s'\n", id, cur_string);
         string_table.entries[string_table.size].id = id;
-        char* unescaped = unescape(cur_string);
+        char* local_string = from_utf8(cur_string);
+        char* unescaped = unescape(local_string);
+        free(local_string);
         string_table.entries[string_table.size].value = unescaped;
         string_table.entries[string_table.size].size = strlen(unescaped);
+        free(unescaped);
 
         string_table.size++;
+
         if (string_table.size >= string_table.capacity) {
           expand_string_table(&string_table);
         }
