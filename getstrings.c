@@ -45,6 +45,7 @@ char* encode_utf16 (wchar_t* str) {
   int i = 0;
   int j = 0;
   char escaped[32776];
+  escaped[j++] = 'L';
   escaped[j++] = '"';
   while (str[i] != L'\0' && j < 32773) {
     switch (str[i]) {
