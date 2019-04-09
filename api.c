@@ -122,7 +122,6 @@ HANDLE aoc_ini_load_strings (char* filename) {
         free(local_string);
         string_table.entries[string_table.size].value = unescaped;
         string_table.entries[string_table.size].size = strlen(unescaped);
-        free(unescaped);
 
         string_table.size++;
 
