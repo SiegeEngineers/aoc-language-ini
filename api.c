@@ -59,7 +59,7 @@ static char* from_utf8 (char* utf8) {
   MultiByteToWideChar(CP_UTF8, 0, utf8, -1, utf16, utf16len);
   int local_len = WideCharToMultiByte(CP_UTF8, 0, utf16, -1, NULL, 0, NULL, NULL);
   char* local = calloc(local_len, sizeof(char));
-  WideCharToMultiByte(CP_UTF8, 0, utf16, -1, local, local_len, NULL, NULL);
+  WideCharToMultiByte(CP_ACP, 0, utf16, -1, local, local_len, NULL, NULL);
   free(utf16);
   return local;
 }
@@ -111,15 +111,26 @@ HANDLE aoc_ini_load_strings (char* filename) {
 
   string_table.entries = calloc(string_table.capacity, sizeof(string_entry_t));
 
+  char is_unicode = FALSE;
   char* read_ptr = strtok(content, "\n");
   while (read_ptr != NULL) {
+    if (read_ptr[0] == '[') {
+      if (strncmp(read_ptr, "[unicode]", strlen("[unicode]")) == 0) {
+        is_unicode = TRUE;
+      }
+    }
     if (read_ptr[0] != ';') {
       if (sscanf(read_ptr, "%d=%4096[^\n\r]", &id, cur_string) == 2) {
         dbg_print("found string %d: '%s'\n", id, cur_string);
         string_table.entries[string_table.size].id = id;
-        char* local_string = from_utf8(cur_string);
+        char* local_string = cur_string;
+        if (is_unicode) {
+          local_string = from_utf8(cur_string);
+        }
         char* unescaped = unescape(local_string);
-        free(local_string);
+        if (is_unicode) {
+          free(local_string);
+        }
         string_table.entries[string_table.size].value = unescaped;
         string_table.entries[string_table.size].size = strlen(unescaped);
 
