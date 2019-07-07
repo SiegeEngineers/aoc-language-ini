@@ -8,8 +8,10 @@ SOURCES = api.c hook.c
 FLAGS = -I./include
 ifeq ($(RELEASE),1)
   FLAGS += $(OPTFLAGS)
+  X1FLAGS = -flto -Wl,--exclude-all-symbols
 else
   FLAGS += $(DBGFLAGS)
+  X1FLAGS =
 endif
 
 all: getstrings.exe aoc-language-ini.dll
@@ -29,4 +31,4 @@ getstrings.exe: getstrings.c
 
 aoc-language-ini.dll: $(SOURCES) main.c strings.rc
 	$(WINDRES) strings.rc -O coff -o strings.res
-	$(CC) -o $@ -Wall -m32 $(FLAGS) -shared $(SOURCES) main.c strings.res
+	$(CC) -o $@ -Wall -m32 $(FLAGS) $(X1FLAGS) -shared $(SOURCES) main.c strings.res

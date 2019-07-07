@@ -40,7 +40,7 @@ __declspec(dllexport) void mmm_unload(mmm_mod_info* info) {
   aoc_ini_deinit();
 }
 
-BOOL WINAPI DllMain (HINSTANCE dll, DWORD reason, void* _) {
+__declspec(dllexport) BOOL WINAPI DllMain (HINSTANCE dll, DWORD reason, void* _) {
   switch (reason) {
     case DLL_PROCESS_ATTACH:
       DisableThreadLibraryCalls(dll);
