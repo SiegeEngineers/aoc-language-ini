@@ -1,11 +1,11 @@
-#include <windows.h>
-#include <stdio.h>
 #include "api.h"
 #include <mmmod.h>
+#include <stdio.h>
+#include <windows.h>
 
 #define AOC_LANGUAGE_INI_VERSION "0.2.1"
 
-static char file_exists (char* filename) {
+static char file_exists(char* filename) {
   WIN32_FIND_DATA file_data;
   HANDLE exists = FindFirstFile(filename, &file_data);
   if (exists == INVALID_HANDLE_VALUE) {
@@ -36,15 +36,14 @@ __declspec(dllexport) void mmm_before_setup(mmm_mod_info* info) {
   }
 }
 
-__declspec(dllexport) void mmm_unload(mmm_mod_info* info) {
-  aoc_ini_deinit();
-}
+__declspec(dllexport) void mmm_unload(mmm_mod_info* info) { aoc_ini_deinit(); }
 
-__declspec(dllexport) BOOL WINAPI DllMain (HINSTANCE dll, DWORD reason, void* _) {
+__declspec(dllexport) BOOL WINAPI
+    DllMain(HINSTANCE dll, DWORD reason, void* _) {
   switch (reason) {
-    case DLL_PROCESS_ATTACH:
-      DisableThreadLibraryCalls(dll);
-      break;
+  case DLL_PROCESS_ATTACH:
+    DisableThreadLibraryCalls(dll);
+    break;
   }
   return 1;
 }

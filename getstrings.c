@@ -1,6 +1,6 @@
 #define WIN32_MEAN_AND_LEAN
-#include <windows.h>
 #include <stdio.h>
+#include <windows.h>
 
 /**
  * getstrings: tool to dump AoC language strings from dll files
@@ -11,7 +11,7 @@
  *   getstrings -rc /path/to/language.dll
  */
 
-char* escape (char* str, char quoted) {
+char* escape(char* str, char quoted) {
   int i = 0;
   int j = 0;
   char escaped[8195];
@@ -20,24 +20,24 @@ char* escape (char* str, char quoted) {
   }
   while (str[i] != '\0' && j < 8193) {
     switch (str[i]) {
-      case '\r':
+    case '\r':
+      escaped[j++] = '\\';
+      escaped[j++] = 'r';
+      break;
+    case '\n':
+      escaped[j++] = '\\';
+      escaped[j++] = 'n';
+      break;
+    case '"':
+      if (quoted) {
         escaped[j++] = '\\';
-        escaped[j++] = 'r';
-        break;
-      case '\n':
-        escaped[j++] = '\\';
-        escaped[j++] = 'n';
-        break;
-      case '"':
-        if (quoted) {
-          escaped[j++] = '\\';
-          escaped[j++] = str[i];
-          break;
-        }
-        // fall through
-      default:
         escaped[j++] = str[i];
         break;
+      }
+      // fall through
+    default:
+      escaped[j++] = str[i];
+      break;
     }
     i++;
   }
@@ -48,14 +48,15 @@ char* escape (char* str, char quoted) {
   return strdup(escaped);
 }
 
-int main (int argc, char** argv) {
+int main(int argc, char** argv) {
   if (argc < 2) {
     fprintf(stderr, "usage: getstrings ~/path/to/language.dll\n");
     return 1;
   }
 
   char* lib_name = argv[1];
-  char as_string_table = argc > 2 && (strcmp(argv[2], "--rc") == 0 || strcmp(argv[2], "-rc") == 0);
+  char as_string_table =
+      argc > 2 && (strcmp(argv[2], "--rc") == 0 || strcmp(argv[2], "-rc") == 0);
   if (argc > 2 && !as_string_table) {
     if (strcmp(argv[1], "--rc") == 0 || strcmp(argv[1], "-rc") == 0) {
       as_string_table = 1;
