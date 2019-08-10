@@ -3,7 +3,7 @@ WINDRES = i686-w64-mingw32-windres
 
 OPTFLAGS = -O3 -s
 DBGFLAGS = -DDEBUG -g
-SOURCES = api.c hook.c
+SOURCES = aoc_language_ini.c hook.c
 
 FLAGS = -I./include
 ifeq ($(RELEASE),1)
