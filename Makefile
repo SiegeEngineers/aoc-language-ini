@@ -16,6 +16,9 @@ endif
 
 all: getstrings.exe aoc-language-ini.dll
 
+format:
+	clang-format -style=file -i *.h *.c
+
 clean:
 	rm -f aoc-language-ini.dll getstrings.exe
 
