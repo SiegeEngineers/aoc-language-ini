@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <windows.h>
 
-#define AOC_LANGUAGE_INI_VERSION "0.2.1"
+#define AOC_LANGUAGE_INI_VERSION "0.3.0"
 
 static char file_exists(char* filename) {
   WIN32_FIND_DATA file_data;
