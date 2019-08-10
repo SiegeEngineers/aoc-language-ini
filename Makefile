@@ -5,10 +5,11 @@ OPTFLAGS = -O3 -s
 DBGFLAGS = -DDEBUG -g
 SOURCES = api.c hook.c
 
+FLAGS = -I./include
 ifeq ($(RELEASE),1)
-  FLAGS = $(OPTFLAGS)
+  FLAGS += $(OPTFLAGS)
 else
-  FLAGS = $(DBGFLAGS)
+  FLAGS += $(DBGFLAGS)
 endif
 
 all: getstrings.exe aoc-language-ini.dll

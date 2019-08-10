@@ -1,7 +1,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include "api.h"
-#include "mmmod.h"
+#include <mmmod.h>
 
 #define AOC_LANGUAGE_INI_VERSION "0.2.1"
 
