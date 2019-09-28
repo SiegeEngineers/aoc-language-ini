@@ -1,5 +1,6 @@
 #include "hook.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <windows.h>
 
@@ -18,8 +19,8 @@ typedef struct string_entry {
 typedef struct string_table {
   size_t id;
   char* filename;
-  int size;
-  int capacity;
+  size_t size;
+  size_t capacity;
   string_entry_t* entries;
 } string_table_t;
 
@@ -143,7 +144,7 @@ HANDLE aoc_ini_load_strings(char* filename) {
 
 static void free_string_table_entries(string_table_t* table) {
   dbg_print("free entries: %s\n", table->filename);
-  for (int i = 0; i < table->size; i++) {
+  for (size_t i = 0; i < table->size; i++) {
     free(table->entries[i].value);
   }
   free(table->entries);
@@ -153,7 +154,7 @@ static void free_string_table_entries(string_table_t* table) {
 }
 
 static void aoc_ini_free_all() {
-  for (int i = 0; i < num_string_tables; i++) {
+  for (size_t i = 0; i < num_string_tables; i++) {
     free_string_table_entries(&string_tables[i]);
     free(string_tables[i].filename);
   }
@@ -163,8 +164,8 @@ static void aoc_ini_free_all() {
 }
 
 void aoc_ini_free_strings(HANDLE table_handle) {
-  int table_id = (size_t)table_handle;
-  for (int i = 0; i < num_string_tables; i++) {
+  size_t table_id = (size_t)table_handle;
+  for (size_t i = 0; i < num_string_tables; i++) {
     if (string_tables[i].id == table_id) {
       free_string_table_entries(&string_tables[i]);
 
@@ -190,7 +191,7 @@ void aoc_ini_free_strings(HANDLE table_handle) {
 }
 
 static string_entry_t* find_string_in_table(string_table_t* table, int id) {
-  for (int i = 0; i < table->size; i++) {
+  for (size_t i = 0; i < table->size; i++) {
     if (table->entries[i].id == id) {
       return &table->entries[i];
     }
