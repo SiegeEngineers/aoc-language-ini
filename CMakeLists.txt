@@ -11,7 +11,7 @@ if (UNIX)
   set(CMAKE_RC_COMPILE_OBJECT "i686-w64-mingw32-windres <SOURCE> -O coff -o <OBJECT>")
 endif()
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_C_STANDARD 11)
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 
 add_compile_options(-m32)
