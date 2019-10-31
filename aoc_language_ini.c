@@ -86,13 +86,6 @@ static char* unescape(char* input) {
 string_table_id aoc_ini_load_strings(char* filename) {
   dbg_print("load strings: %s\n", filename);
 
-  string_table_t string_table = {.id = next_string_table_id,
-                                 .filename = strdup(filename),
-                                 .size = 0,
-                                 .capacity = 8192};
-
-  next_string_table_id++;
-
   int id;
   char cur_string[4096];
 
@@ -100,7 +93,14 @@ string_table_id aoc_ini_load_strings(char* filename) {
   if (!content)
     return (string_table_id){SIZE_MAX};
 
-  string_table.entries = calloc(string_table.capacity, sizeof(string_entry_t));
+  string_table_t string_table = {
+      .id = next_string_table_id,
+      .filename = strdup(filename),
+      .size = 0,
+      .capacity = 8192,
+      .entries = calloc(8192, sizeof(string_entry_t))};
+
+  next_string_table_id++;
 
   char* read_ptr = strtok(content, "\n");
   while (read_ptr != NULL) {

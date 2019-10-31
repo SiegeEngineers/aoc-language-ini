@@ -41,6 +41,7 @@ static void* overwrite_bytes(void* ptr, void* value, size_t size) {
   DWORD tmp;
   if (!VirtualProtect(ptr, size, PAGE_EXECUTE_READWRITE, &old)) {
     dbg_print("Couldn't unprotect?! @ %p\n", ptr);
+    free(orig_data);
     return NULL;
   }
   memcpy(orig_data, ptr, size);
