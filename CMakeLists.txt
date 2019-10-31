@@ -2,12 +2,9 @@ cmake_minimum_required(VERSION 3.9.4)
 
 project(aoc-language-ini)
 
+set(CMAKE_SYSTEM_NAME Windows)
+
 if (UNIX)
-  set(CMAKE_CROSS_COMPILING 1)
-  set(CMAKE_SYSTEM_NAME Windows)
-  set(CMAKE_C_COMPILER i686-w64-mingw32-gcc)
-  set(CMAKE_CXX_COMPILER i686-w64-mingw32-g++)
-  set(CMAKE_RC_COMPILER i686-w64-mingw32-windres)
   set(CMAKE_RC_COMPILE_OBJECT "i686-w64-mingw32-windres <SOURCE> -O coff -o <OBJECT>")
 endif()
 
