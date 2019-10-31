@@ -154,7 +154,7 @@ static void free_string_table_entries(string_table_t* table) {
   table->capacity = 0;
 }
 
-static void aoc_ini_free_all() {
+static void aoc_ini_free_all(void) {
   for (size_t i = 0; i < num_string_tables; i++) {
     free_string_table_entries(&string_tables[i]);
     free(string_tables[i].filename);
@@ -224,7 +224,7 @@ static char* __stdcall load_string_hook(HINSTANCE dll, unsigned int string_id,
 }
 
 static hook_t hooks[10];
-void aoc_ini_init() {
+void aoc_ini_init(void) {
   dbg_print("init()\n");
 
   int i = 0;
@@ -232,7 +232,7 @@ void aoc_ini_init() {
   hooks[i] = NULL;
 }
 
-void aoc_ini_deinit() {
+void aoc_ini_deinit(void) {
   dbg_print("deinit()\n");
 
   aoc_ini_free_all();
