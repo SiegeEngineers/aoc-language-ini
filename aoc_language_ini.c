@@ -210,7 +210,7 @@ static string_entry_t* find_string(int id) {
 }
 
 typedef void* HINSTANCE;
-typedef void* __stdcall (*fn_load_string)(HINSTANCE, unsigned int, char*, int);
+typedef void* (__stdcall *fn_load_string)(HINSTANCE, unsigned int, char*, int);
 static const fn_load_string aoc_load_string = (fn_load_string)0x58E820;
 static char* __stdcall load_string_hook(HINSTANCE dll, unsigned int string_id,
                                         char* buf_out, int buf_size) {
