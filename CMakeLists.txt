@@ -11,8 +11,10 @@ endif()
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 
-add_compile_options(-m32)
-add_compile_options(-Wall)
+if (NOT MSVC)
+  add_compile_options(-m32)
+  add_compile_options(-Wall)
+endif()
 
 add_compile_definitions(WINVER=0x0501)
 add_compile_definitions(WIN32_LEAN_AND_MEAN)
