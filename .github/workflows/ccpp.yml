@@ -12,14 +12,10 @@ jobs:
       run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug -A Win32
     - name: Build debug DLL
       run: cmake --build build --verbose
-    - name: Make artifact
-      run: |
-        mkdir -p artifact
-        cp build/Debug/* artifact
-    - uses: actions/upload-artifact@master
+    - uses: actions/upload-artifact@v2-preview
       with:
         name: aoc-language-ini-debug
-        path: artifact
+        path: build/Debug/*
   release:
     runs-on: windows-latest
 
@@ -29,11 +25,7 @@ jobs:
       run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -A Win32
     - name: Build release DLL
       run: cmake --build build --verbose
-    - name: Make artifact
-      run: |
-        mkdir -p artifact
-        cp build/Release/aoc-language-ini.dll build/Release/getstrings.exe artifact
-    - uses: actions/upload-artifact@master
+    - uses: actions/upload-artifact@v2-preview
       with:
         name: aoc-language-ini-release
-        path: artifact
+        path: build/Release/{aoc-language-ini.dll,getstrings.exe}
