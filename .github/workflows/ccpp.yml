@@ -7,7 +7,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Prepare debug DLL
       run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug -A Win32
     - name: Build debug DLL
@@ -22,7 +22,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Prepare release DLL
       run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -A Win32
     - name: Build release DLL
