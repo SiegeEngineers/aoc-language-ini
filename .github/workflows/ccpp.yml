@@ -9,9 +9,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Prepare debug DLL
-      run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug -A Win32
+      run: cmake -B build -S . -A Win32
     - name: Build debug DLL
-      run: cmake --build build --verbose
+      run: cmake --build build --verbose --config Debug
     - uses: actions/upload-artifact@v2-preview
       with:
         name: aoc-language-ini-debug
@@ -22,9 +22,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Prepare release DLL
-      run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -A Win32
+      run: cmake -B build -S . -A Win32
     - name: Build release DLL
-      run: cmake --build build --verbose
+      run: cmake --build build --verbose --config Release
     - run: |
         ls build/*
     - uses: actions/upload-artifact@v2-preview
