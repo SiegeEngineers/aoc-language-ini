@@ -1,0 +1,36 @@
+name: C Build
+
+on: [push, pull_request]
+
+jobs:
+  debug:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Prepare debug DLL
+      run: cmake -B build -S . -A Win32
+    - name: Build debug DLL
+      run: cmake --build build --verbose --config Debug
+    - uses: actions/upload-artifact@v2-preview
+      with:
+        name: aoc-language-ini-debug
+        path: build/Debug/*
+  release:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Prepare release DLL
+      run: cmake -B build -S . -A Win32
+    - name: Build release DLL
+      run: cmake --build build --verbose --config Release
+    - name: Prepare artifact
+      run: |
+        mkdir -p build/artifact
+        cp build/Release/aoc-language-ini.dll build/artifact
+        cp build/Release/getstrings.exe build/artifact
+    - uses: actions/upload-artifact@v2-preview
+      with:
+        name: aoc-language-ini-release
+        path: build/artifact/*

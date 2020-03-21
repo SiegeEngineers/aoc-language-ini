@@ -1,5 +1,5 @@
 #pragma once
-#include <windef.h> // for HINSTANCE
+#include <windows.h> // for HINSTANCE
 
 typedef void* mmm_hook;
 
