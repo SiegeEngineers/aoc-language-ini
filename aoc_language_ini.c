@@ -93,12 +93,12 @@ string_table_id aoc_ini_load_strings(char* filename) {
   if (!content)
     return (string_table_id){SIZE_MAX};
 
-  string_table_t string_table = {
-      .id = next_string_table_id,
-      .filename = strdup(filename),
-      .size = 0,
-      .capacity = 8192,
-      .entries = calloc(8192, sizeof(string_entry_t))};
+  string_table_t string_table = {.id = next_string_table_id,
+                                 .filename = strdup(filename),
+                                 .size = 0,
+                                 .capacity = 8192,
+                                 .entries =
+                                     calloc(8192, sizeof(string_entry_t))};
 
   next_string_table_id++;
 
@@ -210,7 +210,7 @@ static string_entry_t* find_string(int id) {
 }
 
 typedef void* HINSTANCE;
-typedef void* (__stdcall *fn_load_string)(HINSTANCE, unsigned int, char*, int);
+typedef void*(__stdcall* fn_load_string)(HINSTANCE, unsigned int, char*, int);
 static const fn_load_string aoc_load_string = (fn_load_string)0x58E820;
 static char* __stdcall load_string_hook(HINSTANCE dll, unsigned int string_id,
                                         char* buf_out, int buf_size) {
