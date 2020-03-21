@@ -25,9 +25,9 @@ jobs:
       run: cmake -B build -S . -A Win32
     - name: Build release DLL
       run: cmake --build build --verbose --config Release
-    - run: |
-        ls build/Release/*
     - uses: actions/upload-artifact@v2-preview
       with:
         name: aoc-language-ini-release
-        path: build/Release/{aoc-language-ini.dll,getstrings.exe}
+        path: |
+          build/Release/aoc-language-ini.dll
+          build/Release/getstrings.exe
