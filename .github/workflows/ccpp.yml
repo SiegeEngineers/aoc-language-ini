@@ -25,6 +25,8 @@ jobs:
       run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -A Win32
     - name: Build release DLL
       run: cmake --build build --verbose
+    - run: |
+        ls build/*
     - uses: actions/upload-artifact@v2-preview
       with:
         name: aoc-language-ini-release
