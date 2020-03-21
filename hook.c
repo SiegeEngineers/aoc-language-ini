@@ -65,7 +65,7 @@ hook_t install_jmphook(void* orig_address, void* hook_address) {
       0xE9,      // jmp
       0, 0, 0, 0 // addr
   };
-  int offset = PtrToUlong(hook_address) - PtrToUlong(orig_address + 5);
+  int offset = PtrToUlong(hook_address) - PtrToUlong(orig_address) - 5;
   memcpy(&patch[1], &offset, sizeof(offset));
   dbg_print("installing hook at %p JMP %x (%p %p)\n", orig_address, offset,
             hook_address, orig_address);
@@ -91,7 +91,7 @@ hook_t install_callhook(void* orig_address, void* hook_address) {
       0xE8,      // call
       0, 0, 0, 0 // addr
   };
-  int offset = PtrToUlong(hook_address) - PtrToUlong(orig_address + 5);
+  int offset = PtrToUlong(hook_address) - PtrToUlong(orig_address) - 5;
   memcpy(&patch[1], &offset, sizeof(offset));
   dbg_print("installing hook at %p CALL %x (%p %p)\n", orig_address, offset,
             hook_address, orig_address);
