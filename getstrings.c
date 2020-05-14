@@ -1,6 +1,7 @@
 #define WIN32_MEAN_AND_LEAN
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <windows.h>
 
 /**
